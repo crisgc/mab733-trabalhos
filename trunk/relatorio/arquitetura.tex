@@ -9,12 +9,17 @@
 
 \chapter{Desenvolvimento e Arquitetura}
 
-O programa é composto por uma aplicação desktop cliente Java. Essa aplicação
-simples trata-se de uma calculadora que efetua as quatro operações básicas.
-A camada de negócio da calculadora simples trata portanto dessas 4 operações básicas:
-\texttt{add}, \texttt{subtract}, \texttt{multiply}, \texttt{divide}.
+Houve algumas tentativas de desenvolvimento da aplicação até conseguirmos a
+comunicação com os diferentes tipos de serviços web. Iremos apresentar os (quase
+todos) problemas encontradas.
 
-No projeto da calculadora foi criada uma fachada para essa camada de negócios:
+\section{Tentativa de desenvolvimento no \NetBeans}
+
+O programa é composto por uma aplicação \desktop\ cliente Java. Essa aplicação
+simples trata-se de uma calculadora que efetua algumas operações básicas. 
+
+Primeiramente foi desenvolvido um serviço web em Java para a implementação das 4
+operações básicas. No projeto da calculadora foi criada uma fachada para essa camada de negócios:
 \texttt{IMathOperations} e duas implementações desta fachada:
 \texttt{MathOperations}, que é local, e \texttt{RemoteMathOperations}. Esta
 última utiliza contém os métodos para utilização de um \WebService.
