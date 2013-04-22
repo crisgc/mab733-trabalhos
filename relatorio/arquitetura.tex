@@ -15,7 +15,7 @@ problemas encontradas. Nas próximas seções são as tentativas de implementaç
 serviço até conseguirmos implementá-lo. São mostrados partes de código, a
 arquitetura códigos e uma descrição de boa parte dos problemas encontrados. 
 
-\section{Tentativa de desenvolvimento no \NetBeans}
+\section{Tentativa de desenvolvimento no \NetBeansv}
 
 O programa é composto por uma aplicação \desktop\ cliente Java de nome
 \code{CalculatorGui}. Essa aplicação simples trata-se de uma calculadora que
@@ -32,7 +32,7 @@ serviço Web é mostrado no Código \ref{cod:add}.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.8\textwidth]{imgs/calculadora}
+    \includegraphics[width=\textwidth]{imgs/calculadora}
   \caption{Arquitetura da aplicação cliente.}
   \label{fig:arquitetura:calc}
 \end{figure}
@@ -96,19 +96,60 @@ e assim conseguimos executar a chamada.
 Finalmente, passamos a implementação de um serviço em outra linguagem de
 programação para utilização na calculadora. Testamos um serviço
 \estrangeiro{Hello World} simples. Foi escolhida a linguagem de programação
-\PHP\ para a criação de um outro serviço local com a implementação de uma nova
-operação a ser adicionada na calculadora: o fatorial de um inteiro. No entanto
+\PHP\ para a criação de um outro serviço local, o código do aplicação
+\estrangeiro{Hello World} é apresentado no Código \ref{cod:phphello}. No entanto
 ao importar o cliente para utilização no cliente Java Utilizando o assistente do
 \NetBeans\ nos deparamos com um problema que não conseguimos contornar: não se
 conseguiu gerar o \estrangeiro{proxy} a partir do WSDL gerado a partir do \PHP
 utilizando-se da biblioteca \code{NuSOAP} de classes. Primeiramente, o
 assistente de criação de \proxy\ gerou uma mensagem de erro na criação do
-WebService a partir do WSDL gerado pela biblioteca \code{NoSoap} informando um
+WebService a partir do WSDL gerado pela biblioteca \code{NuSOAP} informando um
 erro de impossibilidade de criação devido ao Estilo RPC. Foi tentado então
 modificar o estilo do WSDL gerado de ``RPC'' para ``Document''. O \NetBeans\
 conseguiu então gerar as classes \proxy\ para a utilização do serviço, porém ao
 utilizar o serviço, deparamos com a seguinte mensagem de exceção: \code{Couldn't
 create SOAP message due to exception: unexpected XML tag}.
 
-Como não conseguimos a resolução, passamos a utilização do IDE \Eclipsev
+Como não conseguimos a resolução, passamos a utilização do IDE \Eclipsev.
+
+\section{Desenvolvimento no \Eclipsev}
+
+Passamos a utilizar o \Eclipsev\ para tentar a comunicação com o serviço gerado
+pelo código \PHP. Foram utilizados, integrado ao \Eclipse, o \ApacheTomcatv\ e o
+\ApacheAxisDoisv. Primeiramente para os testes de aplicação, foi seguido o
+tutorial de criação de um servidor e cliente através da utilização do
+\ApacheAxisDoisv\footnote{\url{http://www.eclipse.org/webtools/community/tutorials/BottomUpAxis2WebService/bu_tutorial.html}}.
+Primeiramente ao tentarmos criar um \textbf{Dynamic Web Project} tínhamos nos
+deparado com o seguinte erro: \code{The Apache Axis2 Web service runtime in
+Tomcat v7.0 Server does not support the service project ConverterProj.}. Ao
+seguir o tutorial porém foi esclarecido que o erro era causado por não ter-se
+habilitado o \estrangeiro{facet} \code{Axis2 Web Services} para o projeto o qual
+gostaríamos de adicionar um serviço.
+
+Então o próximo passo foi desenvolver um cliente de forma a consumir três
+serviços: o serviço Java local gerado a partir do Tutorial apresentado no parágrafo
+anterior (\code{Converter}), o serviço provido na web (\code{numberconversion})
+e o serviço provido pelo servidor Apache também local escrito em \php. As
+classes \estrangeiro{stub} para o acesso ao cliente foram criados através do
+assistente \textbf{Web Service Client}. O código para utilizar os serviços Web a
+partir dos \stub s gerados é mostrado no trecho de código
+\ref{cod:javaeclipseclient}
+
+Com a execução correta desse código partiu-se para a importação dos projetos
+desenvolvidos anteriormente em \NetBeans\ para a plataforma \Eclipse. E assim
+pudemos desenvolver a calculadora para utilizar também os serviços de um
+\WebService\ local escrito em \PHP. A arquitetura final da aplicação é mostrada
+na Fig. \ref{fig:arquitetura:final} 
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{imgs/arquitetura_final}
+  \caption{Arquitetura final da aplicação Calculadora escrita em Java}
+  \label{fig:arquitetura:final}
+\end{figure}
+
+Um trecho de código do serviço PHP utilizado para a implantação do servidor de
+cálculo do fatorial de um número é mostrado no Código \ref{cod:phpfactorial}. Os
+trechos de código que requisitam os serviços web utilizados são mostrados nos
+códigos \ref{cod:remote:math:eclipse} e \ref{cod:remote:conversion:eclipse}. 
 
