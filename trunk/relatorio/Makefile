@@ -3,13 +3,13 @@
 
 PDFVIEWER = evince
 CODES = ./codes/NumberToWords.java ./codes/RemoteMathOperations.java \
-			 ./codes/NumberConversion.php
+			 ./codes/NumberConversion.php ./codes/ConverterClient.java
 IMGS = ./imgs/ufrj.eps ./imgs/calculadora.eps ./imgs/webservice-design.eps \
 			 ./imgs/arquitetura.eps
 FIGSEQUACOES = 
 FIGSSW = 
 ARQS_TEX = arquivo.tex pacotes.tex  comandos.tex \
-					 capa.tex introducao.tex arquitetura.tex codigos.tex
+					 capa.tex introducao.tex arquitetura.tex codigos.tex conclusoes.tex
 
 .PHONY: all
 all: showpdf
