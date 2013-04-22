@@ -1,0 +1,34 @@
+% -----------------------------------------------------------------------------
+% UFRJ
+% PPGI
+% MAB 733 Sistemas Distribuídos
+%
+% Revisado em <não revisado>
+% Autor: Cristiano Gurgel de Castro
+% -----------------------------------------------------------------------------
+
+\chapter{Trechos de Códigos}
+
+\begin{lstlisting}[caption=Operação de chamada ao WebService,label=cod:add,language=Java]
+private static float add(float i, float j) {
+  org.me.calculator.CalculatorWS_Service service = 
+    new org.me.calculator.CalculatorWS_Service();
+  org.me.calculator.CalculatorWS port = 
+    service.getCalculatorWSPort();
+  return port.add(i, j);
+}
+\end{lstlisting}
+
+\lstinputlisting[caption=Serviço de calculadora,label=cod:calculatorws,firstline=14,lastline=25]{codes/CalculatorWS.java}
+
+\lstinputlisting[caption=Chamada ao serviço web externo,
+label=cod:numberconv,firstline=22,lastline=28]{codes/NumberToWords.java}
+
+\begin{lstlisting}[caption=Erro de transporte HTTP,label=cod:httperror]
+Exception in thread "AWT-EventQueue-0" 
+com.sun.xml.internal.ws.client.ClientTransportException: 
+HTTP transport error: java.net.ConnectException: 
+Connection timed out: connect
+\end{lstlisting}
+
+\lstinputlisting[label=cod:phpclient,language=php]{codes/NumberConversion.php}.
