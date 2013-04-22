@@ -4,68 +4,55 @@
 % MAB 733 Sistemas Distribuídos
 %
 % Revisado em <não revisado>
-% Aluno: Cristiano Gurgel de Castro
+% Autor: Cristiano Gurgel de Castro
 % -----------------------------------------------------------------------------
 
 \chapter{Desenvolvimento e Arquitetura}
 
 Houve algumas tentativas de desenvolvimento da aplicação até conseguirmos a
-comunicação com os diferentes tipos de serviços web. Iremos apresentar os (quase
-todos) problemas encontradas.
+comunicação com os diferentes tipos de serviços web. Iremos apresentar parte dos
+problemas encontradas. Nas próximas seções são as tentativas de implementação do
+serviço até conseguirmos implementá-lo. São mostrados partes de código, a
+arquitetura códigos e uma descrição de boa parte dos problemas encontrados. 
 
 \section{Tentativa de desenvolvimento no \NetBeans}
 
-O programa é composto por uma aplicação \desktop\ cliente Java. Essa aplicação
-simples trata-se de uma calculadora que efetua algumas operações básicas. 
+O programa é composto por uma aplicação \desktop\ cliente Java de nome
+\code{CalculatorGui}. Essa aplicação simples trata-se de uma calculadora que
+efetua algumas operações básicas. 
 
 Primeiramente foi desenvolvido um serviço web em Java para a implementação das 4
-operações básicas. No projeto da calculadora foi criada uma fachada para essa camada de negócios:
-\texttt{IMathOperations} e duas implementações desta fachada:
-\texttt{MathOperations}, que é local, e \texttt{RemoteMathOperations}. Esta
-última utiliza contém os métodos para utilização de um \WebService.
-
+operações básicas. No projeto cliente, foi criada uma fachada para essa camada
+de negócios: \code{IMathOperations} e duas implementações desta fachada:
+\code{MathOperations}, que é local, e \code{RemoteMathOperations}. Esta última
+utiliza contém os métodos para utilização de um \WebService. A arquitetura então
+desenvolvida é representada na Fig.  \ref{fig:arquitetura:calc}. Um trecho do
+código da classe \code{RemoteMathOperations} com a chamada ao método de soma do
+serviço Web é mostrado no Código \ref{cod:add}.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.5\textwidth]{imgs/calculadora}
-  \caption{Arquitetura da aplicação cliente. As setas azuis representam a
-    relação \textit{Utiliza}, já as setas vermelhas representam a relação
-  \textit{Implementa}}.
+  \includegraphics[width=0.8\textwidth]{imgs/calculadora}
+  \caption{Arquitetura da aplicação cliente.}
   \label{fig:arquitetura:calc}
 \end{figure}
 
-Um trecho do código da classe \texttt{RemoteMathOperations} com a chamada ao
-método de soma do serviço Web é mostrado no Código \ref{cod:add}.
-
-\begin{lstlisting}[float,caption=Operação de chamada ao WebService,label=cod:add,language=Java]
-private static float add(float i, float j) {
-  org.me.calculator.CalculatorWS_Service service = 
-    new org.me.calculator.CalculatorWS_Service();
-  org.me.calculator.CalculatorWS port = 
-    service.getCalculatorWSPort();
-  return port.add(i, j);
-}
-\end{lstlisting}
-
-% TODO colocar um delimitador antes e depois dos códigos
-
-O serviço \texttt{CalculatorWebService} provê uma implementação das quatro
-operações básicas utilizadas pela calculadora. O \WebService\ foi criado utilizando o IDE
-\NetBeans\ juntamente com seu servidor de aplicação \Glassfish, no qual foi hospedado o
-serviço. O \NetBeans\ provê uma funcionalidade muito prática de criação de
-\WebService s, através da utilização da opção ``Serviço Web'' do Assistente de criação de
-projetos. O \NetBeans\ automaticamente cria uma classe com a implementação do
-Serviço Web. O usuário pode visualizar uma tela chamada 
-``Design'' contendo uma visualização amigável das operações efetuadas a serem
-implementadas no serviço (ver Figura \ref{fig:arquitetura:design}). Através
-dessa tela, foram configuradas as quatro operações que o \WebService\ deve
-fornecer: as quatro operações básicas. Cada uma dessas operações recebem dois
-\texttt{float}s como parâmetros e retornam um \texttt{float} como resultado.
-Após as configurações configurações das operações, a tarefa seguinte foi inserir
-o código de implementação. Um trecho de código exemplo, com a operação de adição
-do \WebService, é mostrado abaixo no código \ref{cod:calculatorws}:
-
-\lstinputlisting[caption=Serviço de calculadora,label=cod:calculatorws,firstline=14,lastline=25]{codes/CalculatorWS.java}
+O serviço \code{CalculatorWebService} provê uma implementação das quatro
+operações básicas. O \WebService\ foi criado
+utilizando o IDE \NetBeansv\ juntamente com servidor de aplicação \Glassfish, o
+qual já vem integrado à IDE e no qual foi hospedado o serviço. O \NetBeans\
+provê uma funcionalidade muito prática de criação de \WebService s, através da
+utilização da opção \textbf{Serviço Web} do Assistente de criação de projetos. O
+\NetBeans\ automaticamente cria uma classe com a implementação do Serviço Web. O
+usuário pode visualizar uma tela chamada \emph{Projeto} contendo uma
+visualização amigável das operações efetuadas a serem implementadas no serviço
+(ver Figura \ref{fig:arquitetura:design}). Através dessa tela, foram
+configuradas as quatro operações que o \WebService\ deve fornecer: as quatro
+operações básicas. Cada uma dessas operações recebem dois \code{float}s como
+parâmetros e retornam um \code{float} como resultado.  Após a configuração das
+operações, a tarefa seguinte foi inserir o código de implementação. Um trecho de
+código exemplo, com a operação de adição do \WebService, é mostrado no código
+\ref{cod:calculatorws}:
 
 \begin{figure}[htb]
   \centering
@@ -74,55 +61,54 @@ do \WebService, é mostrado abaixo no código \ref{cod:calculatorws}:
   \label{fig:arquitetura:design}
 \end{figure}
 
-Foi utilizado a linguagem de programação PHP para a criação de um outro serviço
-local com a implementação das operações de soma, subtração, multiplicação e
-divisão. Para o teste desse servidor foi criado cliente também PHP. Notou-se que
-a configuração de uma relação cliente servidor em PHP pode ser feita sem maiores
-dificuldades.
-
-Dois serviços externos foram considerados. Um deles foi o \textit{Number
-Converter} encontrado a partir do site \url{xmethods.net}. Segundo sua descrição
-ele possui dois métodos: o primeiro contém um serviço de escrita por extenso na
-língua inglesa, recebendo como parâmetro um inteiro, o segundo contém uma
-funcionalidade semelhante para conversão para valores monetários em dólar.
+Dois serviços externos foram considerados: Um deles foi o \emph{Number
+Converter} encontrado a partir do site \url{xmethods.net}. Segundo sua
+descrição\footnote{Descrição encontrada em
+\url{http://www.dataaccess.com/webservicesserver/numberconversion.wso}}
+ele possui dois métodos: o primeiro (\code{NumberToWords}) contém um serviço de
+escrita de número por extenso na língua inglesa, recebendo como parâmetro um
+\code{inteiro}; o segundo (\code{NumberToDollars}) contém uma funcionalidade
+semelhante para conversão para valores monetários em dólar. Para o presente
+trabalho foi utilizado apenas o primeiro método: \code{NumberToWords}
 
 Para o acesso ao serviço Web foi utilizada uma facilidade do \NetBeans\ na
 aplicação cliente da calculadora: a criação de um ``Cliente para serviço Web''.
 Esse componente da IDE foi adicionada ao projeto cliente de calculadora, e
-através de um Assistente para a configuração, foi informada a URL do WSDL do
-serviço, a saber
-\url{http://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL} Uma
-funcionalidade ``SAY'' foi adicionada ao projeto para a chamada ao serviço. Uma
-classe \texttt{NumberToWords} foi criada para a executar a chamada ao
+através de um Assistente para a configuração. Um dos parâmetros informados foi a
+URL do WSDL do serviço\footnote{a saber
+\url{http://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL}}. Uma
+funcionalidade \textbf{SAY} foi adicionada ao projeto para a chamada ao serviço. Uma
+classe \code{NumberToWords} foi criada para a executar a chamada ao
 \WebService. A chamada ao serviço web externo é mostrado no código
 \ref{cod:numberconv}.
 
-\lstinputlisting[float,caption=Chamada ao serviço web
-externo, label=cod:numberconv,firstline=22,lastline=28]{codes/NumberToWords.java}
+No entanto um erro de transporte mostrado no código \ref{cod:httperror}, foi
+lançado durante a chamada de serviço. Interessante notar que um outro projeto
+cliente Java foi criado para testar a comunicação com o serviço Web
+\code{numberconversion} e a comunicação ocorreu sem maiores problemas. Para um
+segundo teste de acesso ao serviço, Um outro cliente, dessa vez escrito na
+linguagem \php\, também executou normalmente o acesso ao serviço. O Código
+\ref{cod:phpclient} mostra o acesso ao serviço externo com um cliente \php. Para
+contornar o problema, o código fonte do projeto Calculadora original, foi
+exportado e importado no projeto cliente o qual conseguiu acesso ao \WebService\
+e assim conseguimos executar a chamada.
 
-No entanto um erro de transporte HTTP, foi lançado durante a chamada de serviço:
+Finalmente, passamos a implementação de um serviço em outra linguagem de
+programação para utilização na calculadora. Testamos um serviço
+\estrangeiro{Hello World} simples. Foi escolhida a linguagem de programação
+\PHP\ para a criação de um outro serviço local com a implementação de uma nova
+operação a ser adicionada na calculadora: o fatorial de um inteiro. No entanto
+ao importar o cliente para utilização no cliente Java Utilizando o assistente do
+\NetBeans\ nos deparamos com um problema que não conseguimos contornar: não se
+conseguiu gerar o \estrangeiro{proxy} a partir do WSDL gerado a partir do \PHP
+utilizando-se da biblioteca \code{NuSOAP} de classes. Primeiramente, o
+assistente de criação de \proxy\ gerou uma mensagem de erro na criação do
+WebService a partir do WSDL gerado pela biblioteca \code{NoSoap} informando um
+erro de impossibilidade de criação devido ao Estilo RPC. Foi tentado então
+modificar o estilo do WSDL gerado de ``RPC'' para ``Document''. O \NetBeans\
+conseguiu então gerar as classes \proxy\ para a utilização do serviço, porém ao
+utilizar o serviço, deparamos com a seguinte mensagem de exceção: \code{Couldn't
+create SOAP message due to exception: unexpected XML tag}.
 
-\begin{lstlisting}
-Exception in thread "AWT-EventQueue-0" 
-com.sun.xml.internal.ws.client.ClientTransportException: 
-HTTP transport error: java.net.ConnectException: 
-Connection timed out: connect
-\end{lstlisting}
-
-Interessante notar que um outro projeto cliente Java foi criado para testar a
-comunicação com o serviço Web \texttt{numberconversion} e a comunicação ocorreu
-sem maiores problemas.  Um outro cliente, escrito na linguagem \php\ também
-executou normalmente o acesso ao serviço. O Código \ref{cod:phpclient} mostra o
-acesso ao serviço externo com um cliente \php. 
-
-\lstinputlisting[label=cod:phpclient,language=php]{codes/NumberConversion.php}.
-
-Foi criado também outro cliente \php\ para consumir um serviço externo de
-conversão de temperatura, através da URL
-\url{http://www.webservicex.net/ConvertTemperature.asmx?WSDL} no entanto, nos
-deparamos com uma falha no próprio serviço executado:
-
-\begin{lstlisting}
-System.IO.IOException: There is not enough space on the disk.
-\end{lstlisting}
+Como não conseguimos a resolução, passamos a utilização do IDE \Eclipsev
 
