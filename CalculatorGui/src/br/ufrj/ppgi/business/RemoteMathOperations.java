@@ -7,9 +7,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.rmi.RemoteException;
 
-import localhost.soap.server.ServerStub;
-import localhost.soap.server.ServerStub.Fatorial;
-import localhost.soap.server.ServerStub.FatorialResponse;
+import localhost.soap.fatorial.FatorialStub;
+import localhost.soap.fatorial.FatorialStub.Fatorial;
+import localhost.soap.fatorial.FatorialStub.FatorialResponse;
 
 import org.apache.axis2.AxisFault;
 
@@ -113,9 +113,9 @@ public class RemoteMathOperations implements IMathOperations {
 	@Override
 	public BigInteger fatorial(BigInteger number) {
 		BigInteger result = null;
-		ServerStub stub;
+		FatorialStub stub;
 		try {
-			stub = new ServerStub();
+			stub = new FatorialStub();
 			Fatorial request = new Fatorial();
 			request.setNumber(number.intValue());
 			FatorialResponse response = stub.fatorial(request);
