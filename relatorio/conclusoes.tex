@@ -3,25 +3,36 @@
 % PPGI
 % MAB 733 Sistemas Distribuídos
 %
-% Revisado em <não revisado>
+% Revisado em 23/04/2013
 % Autor: Cristiano Gurgel de Castro
 % -----------------------------------------------------------------------------
 
 \chapter{Conclusões}
 
-Através do presente trabalho foi mostrado a criação de uma aplicação simples
-para utilização de \WebService s. Algumas constatações foram tiradas do processo
-de desenvolvimento:
+Através do presente trabalho foi mostrada a criação de uma aplicação simples
+para utilização de \WebService s locais ou disponíveis publicamente.  Algumas
+constatações foram tiradas do processo de desenvolvimento:
 
 \begin{itemize}
   \item Nem sempre os serviços disponibilizados gratuitamente na web estarão
     disponíveis. Portanto, aplicações comerciais devem ter muito cuidado ao
-    utilizá-los.
+    utilizá-los. 
+    
+    Um outro serviço externo de conversão de temperatura testado tinha
+    funcionamento intermitente. 
   \item Deve-se escolher bem as ferramentas para geração de \proxy s para
-    utilização de serviços disponibilizados.
+    utilização de serviços disponibilizados. 
+    
+    Algumas vezes elas geraram erros
+    que tivemos de contornar.
+  \item O Código para utilização do \proxy\ gerado automaticamente pode não ser
+    nada intuitivo. 
+    
+    O código gerado pelo \Eclipsev\ é menos intuitivo do gerado
+    pelo \NetBeansv. No primeiro, os parâmetros de chamada e o retorno da função
+    são encapsulados em classe geradas automaticamente pelo \ApacheAxisDois.
+  
   \item O processo de desenvolvimento pode ser bem custoso antes de se ganhar
     experiência na utilização das ferramentas disponíveis e na resolução de
     diversos tipos de problemas.
-  \item O Código para utilização do \proxy\ gerado automaticamente pode não ser
-    nada intuitivo.
 \end{itemize}
