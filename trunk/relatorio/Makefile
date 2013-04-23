@@ -5,9 +5,7 @@ PDFVIEWER = evince
 CODES = ./codes/NumberToWords.java ./codes/RemoteMathOperations.java \
 			 ./codes/NumberConversion.php ./codes/ConverterClient.java
 IMGS = ./imgs/ufrj.eps ./imgs/calculadora.eps ./imgs/webservice-design.eps \
-			 ./imgs/arquitetura.eps
-FIGSEQUACOES = 
-FIGSSW = 
+			 ./imgs/arquitetura.eps ./imgs/screenshot.eps
 ARQS_TEX = arquivo.tex pacotes.tex  comandos.tex \
 					 capa.tex introducao.tex arquitetura.tex codigos.tex conclusoes.tex
 
@@ -22,6 +20,8 @@ all: showpdf
 	convert $^ $@
 
 ./imgs/webservice-design.eps: ./imgs/webservice-design.png
+
+./imgs/screenshot.eps: ./imgs/screenshot.png
 
 .PHONY: showpdf
 showpdf: arquivo.pdf
