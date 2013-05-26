@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+	xmlns:t="http://tuscany.apache.org/xmlns/sca/1.0"
+	xmlns:s="http://crypto" 
+	targetNamespace="http://crypto" 
+	name="crypto">
+	
+	<component name="crypto">
+		<implementation.java class="cryptoclient.CryptoClient" />
+		<reference name="tools" target="CryptographyServiceComponent" />
+		<reference name="certAuthority" target="CertificationAuthority"/>
+	</component>
+	
+	<component name="CryptographyServiceComponent">
+		<implementation.java class="cryptows.CryptographyServiceImpl" />
+	</component>
+	
+	<component name="CertificationAuthority">
+		<implementation.java class="certificate.CertificationAuthorityJava" />
+	</component>
+
+</composite>
