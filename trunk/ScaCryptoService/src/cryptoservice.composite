@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+	xmlns:t="http://tuscany.apache.org/xmlns/sca/1.0"
+	xmlns:crp="http://crypto" 
+	targetNamespace="http://cryptoservice" 
+	name="cryptoservice">
+	
+	<component name="CryptographyServiceComponent">
+		<implementation.java class="cryptows.CryptographyServiceImpl" />
+		<service name="ICryptographyService">
+       		<interface.java interface="cryptows.ICryptographyService" />
+       		<t:binding.rmi host="localhost" port="8099" 
+       			serviceName="encryptionRmiService"><!--comment--></t:binding.rmi>
+    	</service>
+	</component>
+
+</composite>
