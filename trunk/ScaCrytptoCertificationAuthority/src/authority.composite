@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+	xmlns:t="http://tuscany.apache.org/xmlns/sca/1.0"
+	xmlns:crp="http://crypto" 
+	targetNamespace="http://authority" 
+	name="authority">
+	
+	<component name="CertificationAuthotiryComponent">
+		<implementation.java class="certificate.CertificationAuthorityImpl" />
+		<service name="ICertificationAuthority">
+       		<interface.java interface="certificate.ICertificationAuthority" />
+       		<t:binding.rmi host="localhost" port="8098" 
+       		serviceName="authorityRmiService"><!--comment--></t:binding.rmi>
+    	</service>
+	</component>
+
+</composite>
