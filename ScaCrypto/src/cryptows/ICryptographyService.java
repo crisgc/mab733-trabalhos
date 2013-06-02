@@ -3,13 +3,18 @@
  */
 package cryptows;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+import org.osoa.sca.annotations.Remotable;
+
 
 /**
  * Serviço de criptografia
  * @author Cristiano Castro
  */
-//@Remotable
-public interface ICryptographyService {
+@Remotable
+public interface ICryptographyService extends Remote {
 	
 	/**
 	 * Encriptação RSA
@@ -18,7 +23,7 @@ public interface ICryptographyService {
 	 * @param stringPlainText
 	 * @return
 	 */
-	public String rsaEncryptToDecimal(String e, String N, String stringPlainText);
+	public String rsaEncryptToDecimal(String e, String N, String stringPlainText) throws RemoteException;
 	
 	/**
 	 * Decriptografia RSA
@@ -27,6 +32,6 @@ public interface ICryptographyService {
 	 * @param decimalCipherText
 	 * @return
 	 */
-	public String rsaDecryptFromDecimal(String d, String N, String decimalCipherText);
+	public String rsaDecryptFromDecimal(String d, String N, String decimalCipherText) throws RemoteException;
 
 }

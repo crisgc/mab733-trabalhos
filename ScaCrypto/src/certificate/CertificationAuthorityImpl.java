@@ -3,6 +3,7 @@
  */
 package certificate;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +13,11 @@ import java.util.Map;
  * @author Cristiano Castro
  *
  */
-public class CertificationAuthorityJava implements ICertificationAuthority {
+public class CertificationAuthorityImpl implements ICertificationAuthority {
 	
 	private Map<String, PersonEntry> dataBase = new HashMap<>();
 	
-	public CertificationAuthorityJava() {
+	public CertificationAuthorityImpl() {
 		this.init();
 	}
 	
@@ -41,7 +42,7 @@ public class CertificationAuthorityJava implements ICertificationAuthority {
 	 * <code>null</code> se a pessoa não estiver no banco de dados
 	 */
 	@Override
-	public String getPrivateKeyExponent(String id) {
+	public String getPrivateKeyExponent(String id) throws RemoteException {
 		String result = null;
 		if (this.dataBase.containsKey(id)) {
 			result = this.dataBase.get(id).getPrivateKeyExponent();
@@ -56,7 +57,7 @@ public class CertificationAuthorityJava implements ICertificationAuthority {
 	 * @return A identificação do módulo da chave ou <code>null</code> caso 
 	 */
 	@Override
-	public String getModulo(String id) {
+	public String getModulo(String id) throws RemoteException {
 		String result = null;
 		if (this.dataBase.containsKey(id)) {
 			result = this.dataBase.get(id).getModulus();
@@ -124,7 +125,7 @@ public class CertificationAuthorityJava implements ICertificationAuthority {
 	 * Retorna um expoente de um public key. Se não houver public key 
 	 * correspondente ao id passado a resposta é <code>null</code>.
 	 */
-	public String getPublicKeyExponent(String id) {
+	public String getPublicKeyExponent(String id) throws RemoteException {
 		String result = null;
 		if (this.dataBase.containsKey(id)) {
 			result = this.dataBase.get(id).getPublicKeyExponent();

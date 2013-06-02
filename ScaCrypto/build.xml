@@ -1,0 +1,13 @@
+<project default="wsimport">
+
+  <target name="wsimport">
+    	
+    <exec executable="C:\Program Files\Java\jdk1.7.0_21\bin\wsimport">
+    		
+      <arg line="-keep -s ./src -p com.myfirst.wsClient 
+          -d ./bin http://localhost/CertificationAuthority/wsGetPubKey.php?wsdl"/>
+    </exec>
+    	
+  </target>
+
+</project>
