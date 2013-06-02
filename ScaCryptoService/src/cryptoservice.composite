@@ -8,9 +8,12 @@
 	<component name="CryptographyServiceComponent">
 		<implementation.java class="cryptows.CryptographyServiceImpl" />
 		<service name="ICryptographyService">
+		
        		<interface.java interface="cryptows.ICryptographyService" />
        		<t:binding.rmi host="localhost" port="8099" 
        			serviceName="encryptionRmiService"><!--comment--></t:binding.rmi>
+       		<binding.sca />	<!-- Binding Default tambem esta disponivel -->
+       		<binding.ws /> <!-- Cria-se um WS  -->
     	</service>
 	</component>
 
