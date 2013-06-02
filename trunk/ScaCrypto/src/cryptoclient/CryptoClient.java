@@ -1,9 +1,10 @@
 package cryptoclient;
 
+import java.rmi.RemoteException;
+
 import org.osoa.sca.annotations.Reference;
 
 import certificate.ICertificationAuthority;
-import cryptows.CryptographyServiceImpl;
 import cryptows.ICryptographyService;
 
 public class CryptoClient
@@ -38,46 +39,64 @@ public class CryptoClient
 
 	public static void main(String[] args)    
     {
-//        SCANodeFactory factory = SCANodeFactory.newInstance();
-//        SCANode node = factory.createSCANodeFromClassLoader("crypto.composite", 
-//        		CryptoClient.class.getClassLoader());
-//        node.start();
+////        SCANodeFactory factory = SCANodeFactory.newInstance();
+////        SCANode node = factory.createSCANodeFromClassLoader("crypto.composite", 
+////        		CryptoClient.class.getClassLoader());
+////        node.start();
+////        
+////        CryptoClient client = ((SCAClient)node).getService(CryptoClient.class, 
+////        		"crypto");        
+//
+//    	CryptoClient client = new CryptoClient();
+//    	client.setTools(new CryptographyServiceImpl());
+//        String id = "111";
+//        String originalMessage = "antonio lacerda junior";
 //        
-//        CryptoClient client = ((SCAClient)node).getService(CryptoClient.class, 
-//        		"crypto");        
-
-    	CryptoClient client = new CryptoClient();
-    	client.setTools(new CryptographyServiceImpl());
-        String id = "111";
-        String originalMessage = "antonio lacerda junior";
-        
-        System.out.println("--------------------------------------------------");
-        System.out.println("Original Message = " + originalMessage);
-        
-        String decimalCipherText = client.encryptToDecimal(id, originalMessage);
-        System.out.println("Decimal cipher text = " + decimalCipherText);
-        
-        String plainText1 = client.decryptFromDecimal(id, decimalCipherText.toString());
-        System.out.println("Plain text from decimal = " + plainText1);
-        System.out.println("--------------------------------------------------");
-//        node.stop();
+//        System.out.println("--------------------------------------------------");
+//        System.out.println("Original Message = " + originalMessage);
+//        
+//        String decimalCipherText = client.encryptToDecimal(id, originalMessage);
+//        System.out.println("Decimal cipher text = " + decimalCipherText);
+//        
+//        String plainText1 = client.decryptFromDecimal(id, decimalCipherText.toString());
+//        System.out.println("Plain text from decimal = " + plainText1);
+//        System.out.println("--------------------------------------------------");
+////        node.stop();
     }
     
     public String GetPubKeyExponent(String id)
     {
-    	String pubKey = this.getCertAuthority().getPublicKeyExponent(id);;
+    	String pubKey = null;
+		try {
+			pubKey = this.getCertAuthority().getPublicKeyExponent(id);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
     	return pubKey;
     }
     
     public String GetPriKeyExponent(String id)
     {
-    	String priKey = this.getCertAuthority().getPrivateKeyExponent(id);
+    	String priKey = null;
+		try {
+			priKey = this.getCertAuthority().getPrivateKeyExponent(id);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return priKey;
     }
     
     public String GetPubKeyModulo(String id)
     {
-    	String modulo = this.getCertAuthority().getModulo(id);
+    	String modulo = null;
+		try {
+			modulo = this.getCertAuthority().getModulo(id);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return modulo;    	
     }
     
@@ -85,9 +104,15 @@ public class CryptoClient
     {
     	String publicKey = this.GetPubKeyExponent(id);
     	String modulo = this.GetPubKeyModulo(id);
-    	String result = this.tools.rsaEncryptToDecimal(publicKey, 
-    			modulo, 
-    			stringPlainText);
+    	String result = null;
+		try {
+			result = this.tools.rsaEncryptToDecimal(publicKey, 
+					modulo, 
+					stringPlainText);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return result;
     	
     }
@@ -96,9 +121,15 @@ public class CryptoClient
     {
     	String publicKey = this.GetPubKeyExponent(id);
     	String modulo = this.GetPubKeyModulo(id);
-    	String result = this.tools.rsaDecryptFromDecimal(publicKey, 
-    			modulo, 
-    			decimalCipherText);
+    	String result = null;
+		try {
+			result = this.tools.rsaDecryptFromDecimal(publicKey, 
+					modulo, 
+					decimalCipherText);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return result;
     }
 }

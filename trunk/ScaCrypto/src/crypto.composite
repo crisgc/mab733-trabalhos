@@ -7,16 +7,22 @@
 	
 	<component name="crypto">
 		<implementation.java class="cryptoclient.CryptoClient" />
-		<reference name="tools" target="CryptographyServiceComponent" />
-		<reference name="certAuthority" target="CertificationAuthority"/>
+		<reference name="tools">
+			<interface.java interface="cryptows.ICryptographyService"/>
+<!--        		<t:binding.rmi host="localhost" port="8099"  -->
+<!--        			serviceName="encryptionRmiService"/> -->
+<binding.ws uri="http://localhost:8080/CryptographyServiceComponent" />
+		</reference>
+		<reference name="certAuthority">
+			<interface.java interface="certificate.ICertificationAuthority"/>
+       		<t:binding.rmi host="localhost" port="8098" 
+       			serviceName="authorityRmiService"/>
+		</reference>
+<!-- 		<reference name="certAuthority" target="CertificationAuthorityComponent"/> -->
 	</component>
 	
-	<component name="CryptographyServiceComponent">
-		<implementation.java class="cryptows.CryptographyServiceImpl" />
-	</component>
-	
-	<component name="CertificationAuthority">
-		<implementation.java class="certificate.CertificationAuthorityJava" />
-	</component>
+<!-- 	<component name="CertificationAuthorityComponent"> -->
+<!-- 		<implementation.java class="certificate.CertificationAuthorityImpl" /> -->
+<!-- 	</component> -->
 
 </composite>
